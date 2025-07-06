@@ -13,15 +13,29 @@ from app.auth.deps import get_current_user
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
-@router.get("/me")
+@router.get("/me", summary="Obter perfil do usuário autenticado")
 def read_own_profile(current_user = Depends(get_current_user)):
+    """
+    Retorna o perfil do usuário atualmente autenticado.
+    
+    Requer um token de acesso válido.
+    """
     return {
         "username": current_user.username,
         "id": current_user.id,
     }
 
-@router.post("/login", response_model=Token)
+@router.post("/login", response_model=Token, summary="Autenticar usuário e gerar token")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(deps.get_db)):
+    """
+    Autentica um usuário com nome de usuário e senha.
+
+    Retorna um token JWT válido por 60 minutos.
+    
+    **Campos esperados (formulário/x-www-form-urlencoded)**:
+    - `username`: Nome de usuário
+    - `password`: Senha
+    """
     user = crud_user.get_user_by_username(db, form_data.username)
     if not user or not crud_user.verify_password(form_data.password, user.password):
         raise HTTPException(status_code=400, detail="Usuário ou senha incorretos")
@@ -32,8 +46,17 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/register", response_model=Token)
+@router.post("/register", response_model=Token, summary="Registrar novo usuário")
 def register(user: UserCreate, db: Session = Depends(deps.get_db)):
+    """
+    Cria um novo usuário e retorna um token JWT de autenticação.
+
+    - `username`: Nome de usuário único
+    - `email`: (opcional, se presente no schema)
+    - `password`: Senha do usuário
+
+    Se o usuário já existir, retorna erro 400.
+    """
     db_user = crud_user.get_user_by_username(db, user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="Usuário já existe")

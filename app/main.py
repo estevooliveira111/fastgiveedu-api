@@ -52,7 +52,6 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 def root():
     return {"message": "ok"}
 
-# Rotas protegidas
 app.include_router(auth.router, prefix="/auth", tags=["students"])
 app.include_router(students.router, prefix="/students", tags=["students"], dependencies=[Depends(get_current_user)])
 app.include_router(payments.router, prefix="/payments", tags=["payments"], dependencies=[Depends(get_current_user)])
