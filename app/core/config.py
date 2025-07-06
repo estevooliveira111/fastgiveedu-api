@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     DB_HOST: str = "localhost"
     DB_PORT: int = 3306
     DB_NAME: str
+    SECRET_KEY: str = "supersecretkey"
 
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:

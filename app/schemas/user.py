@@ -4,17 +4,19 @@ from typing import Optional
 class UserBase(BaseModel):
     username: str
     password: str
-    organization_id: Optional[int]
+    organization_id: Optional[int] = None
 
 class UserCreate(UserBase):
     password: str
+    organization_id: Optional[int] = None
 
 class UserUpdate(BaseModel):
     username: str | None = None
     password: str | None = None
 
 class UserOut(UserBase):
-    userId: int = Field(..., alias="id")
+    id: int
+    organization_id: Optional[int] = None
 
     class Config:
         from_attributes = True
