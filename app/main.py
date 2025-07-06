@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from app.db.base import Base
 from app.db.session import engine
 
-from app.api.v1.routers import students, users, payments, charges, transfers
+from app.api.v1.routers import students, users, payments, charges, transfers, polos
 
 Base.metadata.create_all(bind=engine)
 
@@ -22,6 +22,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 def root():
     return {"message": "ok"}
 
+app.include_router(polos.router, prefix="/polos", tags=["polos"])
 app.include_router(users.router, prefix="/users", tags=["users"])
 app.include_router(students.router, prefix="/students", tags=["students"])
 app.include_router(payments.router, prefix="/payments", tags=["payments"])
