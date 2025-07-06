@@ -1,7 +1,10 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 
 class UserBase(BaseModel):
     username: str
+    password: str
+    organization_id: Optional[int]
 
 class UserCreate(UserBase):
     password: str
