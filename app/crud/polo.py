@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.polo import Polo
+from app.models.polo_model import Polo
 from app.schemas.polo_schema import PoloCreate, PoloUpdate
 
 def count_polos(db: Session) -> int:

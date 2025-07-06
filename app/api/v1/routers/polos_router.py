@@ -31,7 +31,7 @@ def read_polo(polo_id: int, db: Session = Depends(deps.get_db)):
         raise HTTPException(status_code=404, detail="Polo não encontrado")
     return polo
 
-@router.post("/create", response_model=PoloOut, status_code=status.HTTP_201_CREATED)
+@router.post("/create", response_model=PoloOut, status_code=201)
 def create_polo(polo: PoloCreate, db: Session = Depends(deps.get_db)):
     return crud_polo.create_polo(db, polo)
 
