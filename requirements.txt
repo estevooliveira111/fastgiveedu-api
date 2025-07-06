@@ -8,5 +8,5 @@ psycopg2-binary
 fastapi[all]
 python-dotenv
 python-jose[cryptography]
-passlib[bcrypt]
 pymysql
+bcrypt

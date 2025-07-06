@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from app.db.base import Base
 from app.db.session import engine
 from app.auth.deps import get_current_user
-from app.api.v1.routers import polos_router, students, payments, charges, transfers, auth
+from app.api.v1.routers import polos_router, students, payments, charges, transfers, auth, bank_accounts_router
 
 
 from fastapi.responses import JSONResponse
@@ -62,3 +62,4 @@ app.include_router(payments.router, prefix="/payments", tags=["payments"], depen
 app.include_router(charges.router, prefix="/charges", tags=["charges"], dependencies=[Depends(get_current_user)])
 app.include_router(transfers.router, prefix="/transfers", tags=["transfers"], dependencies=[Depends(get_current_user)])
 app.include_router(polos_router.router, prefix="/polos", tags=["polos"], dependencies=[Depends(get_current_user)])
+app.include_router(bank_accounts_router.router, prefix="/financial/bank-accounts", tags=["acounts-bank"], dependencies=[Depends(get_current_user)])

@@ -80,20 +80,8 @@ class PoloOut(PoloBase):
 
 
 class PaginatedPoloOut(BaseModel):
-    data: List[PoloOut] = []  
-    page: int = 1            
-    page_size: int = 10      
-    total_pages: int = 1     
-    total_items: int = 0     
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "data": [],
-                "page": 1,
-                "page_size": 10,
-                "total_pages": 5,
-                "total_items": 45,
-            }
-        }
-
+    data: List[PoloOut]
+    page: int
+    page_size: int
+    total_pages: int
+    total_items: int
