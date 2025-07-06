@@ -1,5 +1,5 @@
-import enum
+from enum import Enum
 
-class StatusEnum(str, enum.Enum):
-    ATIVO = "ATIVO"
-    INATIVO = "INATIVO"
+class StatusEnum(str, Enum):
+    ACTIVE = "ACTIVE"
+    INACTIVE = "INACTIVE"

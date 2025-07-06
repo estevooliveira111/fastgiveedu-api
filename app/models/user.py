@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String
+from app.models.base_mixin import AuditMixin
 from app.db.base import Base
 
-class User(Base):
+class User(Base, AuditMixin):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)

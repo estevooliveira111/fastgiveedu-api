@@ -9,4 +9,4 @@ class Polo(Base):
     name = Column(String(100), nullable=False)
     city = Column(String(100), nullable=False)
     state = Column(String(2), nullable=False)
-    status = Column(Enum(StatusEnum), nullable=False, default=StatusEnum.ATIVO)
+    status = Column(Enum(StatusEnum), nullable=False, default=StatusEnum.ACTIVE, comment="Campus status")
