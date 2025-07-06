@@ -4,6 +4,7 @@ class PoloBase(BaseModel):
     name: str
     city: str
     state: str
+    
 
 class PoloCreate(PoloBase):
     pass

@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Enum
+from app.models.enums import StatusEnum
 from app.db.base import Base
 
 class Polo(Base):
@@ -8,3 +9,4 @@ class Polo(Base):
     name = Column(String(100), nullable=False)
     city = Column(String(100), nullable=False)
     state = Column(String(2), nullable=False)
+    status = Column(Enum(StatusEnum), nullable=False, default=StatusEnum.ATIVO)
