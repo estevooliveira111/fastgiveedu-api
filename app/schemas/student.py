@@ -1,18 +1,17 @@
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, EmailStr
 
 class StudentBase(BaseModel):
     name: str
-    email: str
-    phone: Optional[str] = None
+    email: EmailStr
+    phone: str | None = None
 
 class StudentCreate(StudentBase):
     pass
 
 class StudentUpdate(BaseModel):
-    name: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
+    name: str | None = None
+    email: EmailStr | None = None
+    phone: str | None = None
 
 class StudentOut(StudentBase):
     id: int
