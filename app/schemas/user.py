@@ -7,6 +7,8 @@ class UserBase(BaseModel):
     organization_id: Optional[int] = None
 
 class UserCreate(UserBase):
+    username: str
+    email: str
     password: str
     organization_id: Optional[int] = None
 

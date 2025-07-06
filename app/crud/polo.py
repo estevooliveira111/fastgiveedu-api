@@ -1,6 +1,12 @@
 from sqlalchemy.orm import Session
 from app.models.polo import Polo
-from app.schemas.polo import PoloCreate, PoloUpdate
+from app.schemas.polo_schema import PoloCreate, PoloUpdate
+
+def count_polos(db: Session) -> int:
+    return db.query(Polo).count()
+
+def get_polos_paginated(db: Session, skip: int = 0, limit: int = 10):
+    return db.query(Polo).offset(skip).limit(limit).all()
 
 def get_all_polos(db: Session):
     return db.query(Polo).all()

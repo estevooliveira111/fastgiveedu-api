@@ -22,6 +22,7 @@ def read_own_profile(current_user = Depends(get_current_user)):
     """
     return {
         "username": current_user.username,
+        # "email": current_user.email,
         "id": current_user.id,
     }
 
