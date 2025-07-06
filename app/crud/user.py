@@ -6,31 +6,26 @@ from app.schemas.user import UserCreate, UserUpdate
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-
-def get_user_by_username(db: Session, username: str):
+def get_user_by_username(db: Session, username: str) -> Optional[User]:
     return db.query(User).filter(User.username == username).first()
 
-
-def create_user(db: Session, user: UserCreate):
+def create_user(db: Session, user: UserCreate) -> User:
     hashed_password = pwd_context.hash(user.password)
     db_user = User(
         username=user.username,
         password=hashed_password,
-        organization_id=user.organization_id,
+        organization_id=user.organization_id if hasattr(user, 'organization_id') else None,
     )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
 
-
-def verify_password(plain_password, hashed_password):
+def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
-
 
 def get_user(db: Session, user_id: int) -> Optional[User]:
     return db.query(User).filter(User.id == user_id).first()
-
 
 def update_user(db: Session, user_id: int, user_in: UserUpdate) -> Optional[User]:
     db_user = get_user(db, user_id)
@@ -42,7 +37,6 @@ def update_user(db: Session, user_id: int, user_in: UserUpdate) -> Optional[User
     db.commit()
     db.refresh(db_user)
     return db_user
-
 
 def delete_user(db: Session, user_id: int) -> Optional[User]:
     db_user = get_user(db, user_id)
