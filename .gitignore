@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtualenv
+venv/
+env/
+
+# Editor
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+
+# Arquivos de ambiente
+.env
