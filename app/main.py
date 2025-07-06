@@ -1,10 +1,14 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Query
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI
+from app.db.base import Base
+from app.db.session import engine
 
+from fastapi.security import HTTPBearer
+from fastapi.staticfiles import StaticFiles
+from app.api.v1.routers import students
+
+Base.metadata.create_all(bind=engine)
 app = FastAPI(
-    title="Allebank API",
-    description="API para autenticação e listagem de transações bancárias da plataforma Allebank.",
+    title="FastGiveEdu API",
     version="1.0.0"
 )
 
@@ -18,3 +22,5 @@ def root():
     Retorna mensagem de OK.
     """
     return {"message": "ok"}
+
+app.include_router(students.router, prefix="/students", tags=["students"])
