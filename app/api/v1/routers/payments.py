@@ -18,7 +18,7 @@ def get_payment(payment_id: int, db: Session = Depends(deps.get_db)):
         raise HTTPException(status_code=404, detail="Payment not found")
     return payment
 
-@router.post("/", response_model=PaymentOut, status_code=status.HTTP_201_CREATED)
+@router.post("/create", response_model=PaymentOut, status_code=status.HTTP_201_CREATED)
 def create_payment(payment: PaymentCreate, db: Session = Depends(deps.get_db)):
     return crud.create_payment(db, payment)
 

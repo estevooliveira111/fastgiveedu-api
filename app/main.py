@@ -69,10 +69,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         },
     )
 
-# Monta arquivos estáticos (como imagens, CSS, JS etc.)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-# Rota raiz para checagem rápida
 @app.get("/", include_in_schema=False)
 def root():
     return {"message": "ok"}

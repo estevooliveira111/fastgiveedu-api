@@ -57,4 +57,5 @@ class StudentOut(StudentBase):
     id: int = Field(..., description="ID único do aluno no sistema")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+        populate_by_name = True
