@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import Optional
-from app.models.charge import Charge
+from app.models.charge_model import Charge
 from app.schemas.charge import ChargeCreate, ChargeUpdate
 
 def get_charge(db: Session, charge_id: int) -> Optional[Charge]:

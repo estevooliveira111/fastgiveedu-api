@@ -8,4 +8,4 @@ class Student(Base):
     name = Column(String(100), nullable=False)
     email = Column(String(100), nullable=False, unique=True)
     phone = Column(String(20), nullable=True)
-    organization_id = Column(Integer, nullable=True)  
+    organization_id = Column(Integer, nullable=True)
