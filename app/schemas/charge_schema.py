@@ -1,4 +1,6 @@
 from pydantic import BaseModel, Field, validator
+from .charge_split_schema import ChargeSplitCreate
+from typing import Optional, List
 from datetime import date
 from typing import Literal
 
@@ -12,7 +14,8 @@ class ChargeCreate(BaseModel):
     student_id: int = Field(..., description="Identificador único do aluno")
     due_date: date = Field(..., description="Data de vencimento da cobrança")
     amount: float = Field(..., gt=0, description="Valor total da cobrança. Deve ser maior que zero")
-    status: Literal["PENDING", "PAID", "OVERDUE"] = Field(..., description="Status da cobrança")
+    status: Literal["PENDING", "PAID", "OVERDUE"] = Field("PENDING", description="Status da cobrança")
+    splits: Optional[List[ChargeSplitCreate]] = None
 
     @validator("due_date")
     def due_date_not_in_past(cls, v):

@@ -22,3 +22,5 @@ class Charge(Base, AuditMixin):
     amount_paid = Column(Float, nullable=True, comment="Valor efetivamente pago (pode ser menor, igual ou maior que o valor original)")
     status = Column(Enum(ChargeStatus), nullable=False, comment="Status atual da cobrança: PENDING (pendente), PAID (paga), OVERDUE (vencida)")
     student = relationship("Student", back_populates="charges")
+
+    splits = relationship("ChargeSplit", back_populates="charge", cascade="all, delete-orphan")
