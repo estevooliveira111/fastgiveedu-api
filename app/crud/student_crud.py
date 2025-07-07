@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.student import Student
+from app.models.student_model import Student
 from app.schemas.student import StudentCreate, StudentUpdate
 
 def count_students(db: Session) -> int:
@@ -14,8 +14,18 @@ def get_all_students(db: Session):
 def get_student_by_id(db: Session, student_id: int):
     return db.query(Student).filter(Student.id == student_id).first()
 
-def create_student(db: Session, student: StudentCreate):
-    db_student = Student(**student.dict())
+def create_student(db: Session, student: StudentCreate) -> Student:
+    db_student = Student(
+        profile_id=student.profile_id,
+        name=student.name,
+        ra=student.ra,
+        cpf=student.cpf,
+        email=student.email,
+        gender=student.gender,
+        birth_date=student.birth_date,
+        organization_id=student.organization_id,
+        organization_description=student.organization_description
+    )
     db.add(db_student)
     db.commit()
     db.refresh(db_student)

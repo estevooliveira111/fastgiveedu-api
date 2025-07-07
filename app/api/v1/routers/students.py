@@ -2,12 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 
 from app.schemas.student import StudentCreate, StudentUpdate, StudentOut
-from app.crud import student as crud_student
+from app.crud import student_crud as crud_student
 from app.api import deps
 
 router = APIRouter()
 
-@router.get("/", response_model=dict)
+@router.get("/list", response_model=dict)
 def read_students(
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
@@ -37,7 +37,7 @@ def read_student(student_id: int, db: Session = Depends(deps.get_db)):
         raise HTTPException(status_code=404, detail="Student not found")
     return student
 
-@router.post("/", response_model=StudentOut, status_code=status.HTTP_201_CREATED)
+@router.post("/create", response_model=StudentOut, status_code=status.HTTP_201_CREATED)
 def create_student(student: StudentCreate, db: Session = Depends(deps.get_db)):
     return crud_student.create_student(db, student)
 
