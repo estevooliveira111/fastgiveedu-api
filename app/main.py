@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from app.db.base import Base
 from app.db.session import engine
 from app.auth.deps import get_current_user
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.routers import polos_router, students, payments, charges, transfers, auth, bank_accounts_router
 
 from fastapi.responses import JSONResponse
@@ -15,6 +16,14 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="FastGiveEdu API",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.exception_handler(StarletteHTTPException)
