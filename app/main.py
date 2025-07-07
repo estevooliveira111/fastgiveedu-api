@@ -10,16 +10,13 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 import json
 
-# Cria as tabelas do banco de dados
 Base.metadata.create_all(bind=engine)
 
-# Inicializa o aplicativo FastAPI
 app = FastAPI(
     title="FastGiveEdu API",
     version="1.0.0"
 )
 
-# Tratamento global para erros HTTP
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     return JSONResponse(
@@ -34,12 +31,10 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         },
     )
 
-# Tratamento global para erros de validação
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     body = exc.body
 
-    # Tentativa de converter o corpo em string legível ou dicionário
     if isinstance(body, bytes):
         try:
             body = body.decode('utf-8', errors='ignore')
@@ -49,7 +44,6 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     elif not isinstance(body, (dict, list, str)):
         body = str(body)
 
-    # Converte qualquer ValueError ou outro objeto em string para serialização segura
     serializable_errors = []
     for error in exc.errors():
         err = error.copy()
@@ -64,9 +58,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             "error": {
                 "type": "validation_error",
                 "details": serializable_errors,
-                "body": body,
-            },
-        },
+                "body": body
+            }
+        }
     )
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -75,7 +69,6 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 def root():
     return {"message": "ok"}
 
-# Rotas protegidas por autenticação
 app.include_router(auth.router, prefix="/auth", tags=["students"])
 app.include_router(students.router, prefix="/students", tags=["students"], dependencies=[Depends(get_current_user)])
 app.include_router(payments.router, prefix="/payments", tags=["payments"], dependencies=[Depends(get_current_user)])
@@ -83,4 +76,3 @@ app.include_router(charges.router, prefix="/charges", tags=["charges"], dependen
 app.include_router(transfers.router, prefix="/transfers", tags=["transfers"], dependencies=[Depends(get_current_user)])
 app.include_router(polos_router.router, prefix="/polos", tags=["polos"], dependencies=[Depends(get_current_user)])
 app.include_router(bank_accounts_router.router, prefix="/financial/bank-accounts", tags=["accounts-bank"], dependencies=[Depends(get_current_user)])
-
