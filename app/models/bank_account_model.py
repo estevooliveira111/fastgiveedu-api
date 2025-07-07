@@ -1,4 +1,7 @@
 from sqlalchemy import Column, Integer, String, Enum, Table
+from app.models.base_mixin import AuditMixin
+from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
 from app.db.base import Base
 import enum
 
@@ -21,11 +24,11 @@ class OperationEnum(str, enum.Enum):
 polo_bank_account = Table(
     "polo_bank_account",
     Base.metadata,
-    Column("polo_id", Integer, primary_key=True, comment="ID do polo"),
-    Column("bank_account_id", Integer, primary_key=True, comment="ID da conta bancária"),
+    Column("polo_id", Integer, ForeignKey("polos.id"), primary_key=True, comment="ID do polo"),
+    Column("bank_account_id", Integer, ForeignKey("bank_accounts.id"), primary_key=True, comment="ID da conta bancária"),
 )
 
-class BankAccount(Base):
+class BankAccount(Base, AuditMixin):
     __tablename__ = "bank_accounts"
     __table_args__ = {"comment": "Tabela de contas bancárias vinculadas a polos"}
 
@@ -45,3 +48,9 @@ class BankAccount(Base):
     agency_code = Column(Integer, nullable=True, comment="Código da agência")
     status = Column(Enum(StatusEnum), nullable=False, comment="Status da conta (ATIVO/INATIVO)")
     operation = Column(Enum(OperationEnum), nullable=True, comment="Tipo de operação permitida para a conta")
+
+    polos = relationship(
+        "Polo",
+        secondary=polo_bank_account,
+        back_populates="bank_accounts"
+    )

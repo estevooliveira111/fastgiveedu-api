@@ -34,8 +34,24 @@ class BankAccountBase(BaseModel):
     status: StatusEnum = Field(..., description="Status da conta (ATIVO/INATIVO)")
     operation: Optional[OperationEnum] = Field(None, description="Operação permitida")
 
-class BankAccountCreate(BankAccountBase):
-    pass
+class BankAccountCreate(BaseModel):
+    name: str = Field(..., description="Nome da conta bancária")
+    number: str = Field(..., description="Número da conta")
+    dv_account: Optional[str] = Field(None, description="Dígito verificador da conta")
+    account_type: AccountTypeEnum = Field(..., description="Tipo da conta")
+    sequential_file_remittance: Optional[str] = Field(None, description="Sequencial do arquivo de remessa")
+    consolidated: Optional[int] = Field(0, description="Conta consolidada (0 ou 1)")
+    bank_number: Optional[str] = Field(None, description="Número do banco")
+    bank_name: Optional[str] = Field(None, description="Nome do banco")
+    bank_code: Optional[int] = Field(None, description="Código do banco")
+    agency_number: Optional[str] = Field(None, description="Número da agência")
+    agency_dv: Optional[str] = Field(None, description="Dígito verificador da agência")
+    agency_name: Optional[str] = Field(None, description="Nome da agência")
+    agency_code: Optional[int] = Field(None, description="Código da agência")
+    status: StatusEnum = Field(..., description="Status da conta (ATIVO/INATIVO)")
+    operation: Optional[OperationEnum] = Field(None, description="Operação permitida")
+
+    polo_id: Optional[int] = Field(None, description="ID do polo para associação direta")
 
 class BankAccountUpdate(BankAccountBase):
     pass

@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from app.models.base_mixin import AuditMixin
+from sqlalchemy.orm import relationship
+from .bank_account_model import polo_bank_account
 from app.db.base import Base
 
 class Polo(Base, AuditMixin):
@@ -37,3 +39,9 @@ class Polo(Base, AuditMixin):
     complement = Column(String(255), nullable=True, comment="Complemento do endereço")
     unit_type = Column(String(100), nullable=True, comment="Tipo da unidade")
     attendance_hours_note = Column(String(255), nullable=True, comment="Observação sobre horário de atendimento")
+
+    bank_accounts = relationship(
+        "BankAccount",
+        secondary=polo_bank_account,
+        back_populates="polos"
+    )
